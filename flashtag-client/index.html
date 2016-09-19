@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" class="fullsize">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>flashtag.io</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
+  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="bower_components/angular/angular-csp.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body ng-controller='flashtag' nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter" class="ng-cloak">
+
+    <div nv-file-over="" uploader="uploader" class="fullsize">
+        <div class="centered" style=width:400px;>
+            <img ng-show="!processing" src ="still.gif"/>
+            <img ng-show="processing" src="animated.gif"/>
+
+            <span ng-if="imageTags">
+                <br/>
+                <span ng-repeat="(tag, count) in imageTags">
+                    <button class="btn btn-primary" type="button" style="margin:3px;">
+                      {{tag}} <span ng-if="count>1" class="badge">{{count}}</span>
+                    </button>
+                </span>
+            </span>
+
+            
+        </div>
+    </div>
+
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
