@@ -1,0 +1,87 @@
+<div ng-init="controller.init()">
+
+    <form ng-submit="controller.updateSearch(controller.searchString)">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Find:</span>
+        <input type="text" class="form-control" placeholder="Search" aria-describedby="basic-addon1" ng-model="controller.searchString">
+      </div>
+    </form>
+
+    <span ng-repeat="tag in controller.getResults().similar">    
+      <button 
+        style="float:left; margin: 2px 2px 0px 0px;"
+        ng-click="controller.addToSearch(tag)"
+        class="btn btn-primary" type="button">
+        {{tag.name}}
+      </button>
+    </span>
+  </div>
+
+  <br clear="all"/>
+
+  <div class="card" style="margin: 5px 0px 0px 0px;">
+    <div class="card-block">
+    
+      <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <button type="button" class="btn btn-secondary">Add Tag</button>
+        <button type="button" class="btn btn-secondary">Remove Tag</button>
+      
+        <div class="btn-group" role="group">
+          <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </button>
+          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a class="dropdown-item" href="#">Dropdown link</a>
+            <a class="dropdown-item" href="#">Dropdown link</a>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary">Delete</button>
+      </div>
+    
+      <br clear="all"/>
+    
+      <button 
+        ng-repeat="photo in controller.getResults().photos"
+        class="btn btn-primary"
+        style="float: left; border: 0px; margin: 5px 5px 0px 0px; height:150px; width:150px; border-radius: 5px;"
+        background="{{photo.ref.download.thumb}}"
+        ng-click="controller.select(photo)"
+        >
+      </button>
+      <div ng-if="controller.getResults().photos.length===0" class="alert alert-info" role="alert">Sorry, nothing found.</div>
+
+    </div>
+  </div>
+
+  <div class="modal fade" id="photoDetails">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!--<img ng-src="{{controller.getSelected().ref.download.small}}"/>-->
+
+          <span ng-repeat="tag in controller.getSelected().tags">    
+            <button 
+              style="float:left; margin: 2px 2px 0px 0px;"
+              class="btn btn-primary" type="button">
+              {{tag.name}}
+            </button>
+          </span>
+
+          <br clear="all"/>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+</div>

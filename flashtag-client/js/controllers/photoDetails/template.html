@@ -1,0 +1,5 @@
+<img ng-src="{{photo.ref.download.medium}}"/>
+
+<div ng-repeat="tag in photo.tags">
+  <a ng-href="/tags/{{tag.name}}">{{tag.name}}</a>
+</div>
