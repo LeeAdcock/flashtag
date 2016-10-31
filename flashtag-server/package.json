@@ -5,9 +5,11 @@
   "main": "flashtag.js",
   "dependencies": {
     "async": "^2.0.1",
+    "bootstrap": "^3.3.7",
     "express": "^4.14.0",
     "gcloud": "^0.37.0",
     "guid": "0.0.12",
+    "moment": "^2.15.1",
     "multer": "^1.1.0",
     "mysql": "^2.11.1",
     "node-cache": "^4.0.0",
@@ -16,7 +18,9 @@
     "promise": "^7.1.1",
     "q": "^1.4.1",
     "rwlock": "^5.0.0",
-    "sequelize": "^3.24.3"
+    "sequelize": "^3.24.3",
+    "sharp": "^0.16.0",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {},
   "scripts": {

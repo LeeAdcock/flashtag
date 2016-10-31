@@ -1,6 +1,16 @@
 var Sequelize = require('sequelize');
 var sequelize = exports.sequelize = new Sequelize('mysql://root:fl45ht4g@104.196.180.89:3306/flashtag');
 
+exports.query = function(sql, replacements) {
+  console.log(sql, replacements);
+    return sequelize.query(sql,
+      { 
+        replacements: replacements, 
+        type: sequelize.QueryTypes.SELECT 
+      }
+    );
+}
+
 // User
 exports.user = sequelize.define('user', {
   username: {
@@ -16,21 +26,54 @@ exports.user = sequelize.define('user', {
 
 // Photo
 exports.photo = sequelize.define('photo', {
-  path: {
+  name: {
     type: Sequelize.STRING,
-    field: 'path' // Will result in an attribute that is firstName when user facing but first_name in the database
+    field: 'name'
   },
   md5Hash: {
     type: Sequelize.STRING,
-    field: 'md5Hash' // Will result in an attribute that is firstName when user facing but first_name in the database
+    field: 'md5Hash'
   },
   size: {
     type: Sequelize.DOUBLE,
-    field: 'size' // Will result in an attribute that is firstName when user facing but first_name in the database
+    field: 'size'
+  },
+  height: {
+    type: Sequelize.DOUBLE,
+    field: 'height'
+  },
+  width: {
+    type: Sequelize.DOUBLE,
+    field: 'width'
+  },
+  rotation: {
+    type: Sequelize.DOUBLE,
+    field: 'rotation'
+  },
+  createDate: {
+    type: Sequelize.DATE,
+    field: 'createDate'
+  },
+  hidden: {
+    type: Sequelize.BOOLEAN,
+    field: 'hidden'
   }
-
 }, {
-  freezeTableName: true // Model tableName will be the same as the model name
+  freezeTableName: true, // Model tableName will be the same as the model name
+  indexes: [
+    {
+      name: 'md5HashUnique',
+      unique: true,
+      method: 'BTREE',
+      fields: ['md5Hash']
+    },
+    {
+      name: 'nameUnique',
+      unique: true,
+      method: 'BTREE',
+      fields: ['name', 'userId']
+    }
+  ]
 });
 exports.photo.belongsTo(exports.user);
 
@@ -38,7 +81,7 @@ exports.photo.belongsTo(exports.user);
 exports.tag = sequelize.define('tag', {
   tag: {
     type: Sequelize.STRING,
-    field: 'tag', // Will result in an attribute that is firstName when user facing but first_name in the database
+    field: 'tag',
     primaryKey: true
   }
 }, {
@@ -48,7 +91,26 @@ exports.tag = sequelize.define('tag', {
 // PhotoTag - Relationship between Photos and Tags
 
 exports.phototag = sequelize.define('phototag', {
-
+  height: {
+    type: Sequelize.DOUBLE,
+    field: 'height'
+  },
+  width: {
+    type: Sequelize.DOUBLE,
+    field: 'width'
+  },
+  left: {
+    type: Sequelize.DOUBLE,
+    field: 'left'
+  },
+  top: {
+    type: Sequelize.DOUBLE,
+    field: 'top'
+  },
+  hidden: {
+    type: Sequelize.BOOLEAN,
+    field: 'hidden'
+  }
 }, {
   freezeTableName: true, // Model tableName will be the same as the model name
   indexes: [
@@ -60,11 +122,16 @@ exports.phototag = sequelize.define('phototag', {
     }
   ]
   
-  
 });
 exports.phototag.belongsTo(exports.photo);
-exports.phototag.belongsTo(exports.tag, {as: 'tag'});
+exports.phototag.belongsTo(exports.tag);
 
 exports.sync = function(options) {
   return sequelize.sync(options);
+};
+
+exports.transaction = function(callback) {
+  return sequelize.transaction({
+    isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.READ_COMMITTED
+  }, callback);
 };
